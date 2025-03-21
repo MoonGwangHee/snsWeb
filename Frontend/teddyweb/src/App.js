@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   
-  const [message, setMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/hello")
-    .then(response => response.text())
-    .then(data => setMessage(data))
-    .catch(error => console.error("Error : ", error));
-  }, []);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
   return (
-    <div>
-      <h1>React + Spring Boot 연동</h1>
-      <p>백엔드 응답 : {message}</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route element={<PrivateRoute />} >
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </Router>
   );
+  
 }
 
 export default App;

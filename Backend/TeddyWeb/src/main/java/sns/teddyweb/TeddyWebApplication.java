@@ -8,6 +8,7 @@ public class TeddyWebApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TeddyWebApplication.class, args);
-    }
 
+
+    }
 }
